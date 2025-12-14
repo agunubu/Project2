@@ -431,12 +431,27 @@ class AssignmentDialog(QDialog):
         layout.addRow(buttons)
 
     def get_data(self) -> dict:
-        """Get the entered assignment data."""
-        return {
-            'name': self.nameInput.text().strip(),
-            'score': float(self.scoreInput.text()),
-            'max_points': float(self.maxPointsInput.text())
-        }
+    name = self.nameInput.text().strip()
+    score_text = self.scoreInput.text().strip()
+    max_points_text = self.maxPointsInput.text().strip()
+
+    if not name:
+        raise ValueError("Assignment name cannot be empty.")
+
+    if not score_text or not max_points_text:
+        raise ValueError("Please enter both a score and max points.")
+
+    try:
+        score = float(score_text)
+        max_points = float(max_points_text)
+    except ValueError:
+        raise ValueError("Score and max points must be valid numbers.")
+
+    return {
+        'name': name,
+        'score': score,
+        'max_points': max_points
+    }
 
 if __name__ == "__main__":
     import sys
